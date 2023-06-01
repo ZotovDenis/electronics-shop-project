@@ -1,3 +1,6 @@
+from csv import DictReader
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -14,7 +17,7 @@ class Item:
         :param quantity: Количество товара в магазине.
         """
 
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
@@ -32,3 +35,43 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, new_name):
+        try:
+            if len(new_name) <= 10:
+                self.__name = new_name
+        except ValueError:
+            print("Длина наименования товара превышает 10 символов.")
+
+    @classmethod
+    def instantiate_from_csv(cls):
+        """
+        Инициализирует экземпляры класса Item из файла csv.
+        """
+        cls.all.clear()
+        with open(r'C:\Users\Денис\electronics-shop-project\src\items.csv', 'r') as csv_file:
+            csv_reader = DictReader(csv_file)
+            for row in csv_reader:
+                name, price, quantity = row['name'], float(row['price']), int(row['quantity'])
+                cls(name, price, quantity)
+
+    @staticmethod
+    def string_to_number(number):
+        """
+        Преобразует строку в число.
+
+        :param number: Строка, которую нужно преобразовать в число.
+        :return: Число.
+        """
+        try:
+            return int(number)
+        except ValueError:
+            if number.isalpha() or number == "":
+                return False
+            else:
+                return int(float(number))

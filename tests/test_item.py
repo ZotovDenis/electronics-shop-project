@@ -22,3 +22,23 @@ def test_apply_discount(smartphone):
     Item.pay_rate = 0.5
     smartphone.apply_discount()
     assert smartphone.price == 5000
+
+
+def test_name(smartphone):
+    smartphone.name = "Телефон"
+    assert smartphone.name == "Телефон"
+    smartphone.name = "Супертелефон"
+    assert smartphone.name == "Телефон"
+    smartphone.name = "Смартфон"
+
+
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+
+
+def test_string_to_number():
+    assert Item.string_to_number("14") == 14
+    assert Item.string_to_number("14.9") == 14
+    assert Item.string_to_number("string") == False
+    assert Item.string_to_number("") == False
