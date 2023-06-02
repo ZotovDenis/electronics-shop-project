@@ -55,7 +55,7 @@ class Item:
         Инициализирует экземпляры класса Item из файла csv.
         """
         cls.all.clear()
-        file = os.path.join('..', 'src', 'items.csv')
+        file = os.path.join(os.path.dirname(__file__), 'items.csv')
         with open(file, 'r') as csv_file:
             csv_reader = DictReader(csv_file)
             for row in csv_reader:
