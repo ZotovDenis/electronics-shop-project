@@ -42,3 +42,13 @@ def test_string_to_number():
     assert Item.string_to_number("14.9") == 14
     assert Item.string_to_number("string") == False
     assert Item.string_to_number("") == False
+
+
+def test_represent():
+    item1 = Item("Смартфон", 10000, 20)
+    assert Item.__repr__(item1) == "Item('Смартфон', 10000, 20)"
+
+
+def test_string():
+    item_test = Item("Ноутбук", 20000, 10)
+    assert Item.__str__(item_test) == "Ноутбук"
