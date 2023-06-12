@@ -52,3 +52,10 @@ def test_represent():
 def test_string():
     item_test = Item("Ноутбук", 20000, 10)
     assert Item.__str__(item_test) == "Ноутбук"
+
+
+def test_add():
+    item1 = Item("Телефон", 15000, 5)
+    item2 = Item("Монитор", 18000, 3)
+    assert item1 + item2 == 8
+    assert item1 + 14 == None
