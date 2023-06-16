@@ -53,7 +53,7 @@ class Item:
             if len(new_name) <= 10:
                 self.__name = new_name
         except ValueError:
-            print("Длина наименования товара превышает 10 символов.")
+            raise "Длина наименования товара превышает 10 символов."
 
     @classmethod
     def instantiate_from_csv(cls):
