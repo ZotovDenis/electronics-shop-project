@@ -2,6 +2,13 @@ import os
 from csv import DictReader
 
 
+class InstantiateCSVError(Exception):
+    """Класс для отработки исключения с поврежденным файлом items.csv"""
+
+    def __init__(self):
+        self.message = "Файл item.csv поврежден"
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -56,17 +63,24 @@ class Item:
             raise "Длина наименования товара превышает 10 символов."
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, filename='items.csv'):
         """
         Инициализирует экземпляры класса Item из файла csv.
         """
         cls.all.clear()
-        file = os.path.join(os.path.dirname(__file__), 'items.csv')
-        with open(file, 'r') as csv_file:
-            csv_reader = DictReader(csv_file)
-            for row in csv_reader:
-                name, price, quantity = row['name'], float(row['price']), int(row['quantity'])
-                cls(name, price, quantity)
+        file = os.path.join(os.path.dirname(__file__), filename)
+        try:
+            with open(file, 'r') as csv_file:
+                csv_reader = DictReader(csv_file)
+                for row in csv_reader:
+                    try:
+                        name, price, quantity = row['name'], float(row['price']), int(row['quantity'])
+                        cls(name, price, quantity)
+                    except (ValueError, KeyError):
+                        raise InstantiateCSVError
+
+        except FileNotFoundError:
+            print("Отсутствует файл items.csv")
 
     @staticmethod
     def string_to_number(number):
