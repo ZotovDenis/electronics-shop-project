@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 
 
 @pytest.fixture
@@ -35,8 +35,12 @@ def test_name(smartphone):
 def test_instantiate_from_csv():
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
-    item_none = Item.instantiate_from_csv('item.csv')
-    assert item_none == None
+    # item_none = Item.instantiate_from_csv('item.csv')
+    # assert item_none == None
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv("items_broken.csv")
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv("отсутствующий_файл.csv")
 
 
 def test_string_to_number():

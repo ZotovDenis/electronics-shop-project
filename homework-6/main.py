@@ -1,9 +1,10 @@
-from src.item import Item, InstantiateCSVError
+from src.item import Item
 
 if __name__ == '__main__':
-    try:
-        Item.instantiate_from_csv()
-    except FileNotFoundError as e:
-        print(e)
-    except InstantiateCSVError as ex:
-        print(ex.message)
+    # Файл items.csv отсутствует.
+    Item.instantiate_from_csv('отсутствующий_файл.csv')
+    # FileNotFoundError: Отсутствует файл отсутствующий_файл.csv
+
+    # В файле items.csv удалена последняя колонка.
+    Item.instantiate_from_csv('items_broken.csv')
+    # InstantiateCSVError: Файл items_broken.csv поврежден
